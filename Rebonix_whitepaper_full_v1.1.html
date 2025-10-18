@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Rebonix 白皮书 v1.1 — 完整版（扩展内容 · 第1–8章 + 可行性附录）</title>
+<style>
+  :root {
+    --bg:#0b0f14;
+    --panel:#121821;
+    --muted:#9db0c9;
+    --text:#e6eef8;
+    --accent:#55d1ff;
+    --accent2:#ffc857;
+    --ok:#6ee7b7;
+    --warn:#ff9d57;
+  }
+  html,body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,"PingFang SC","Microsoft YaHei",sans-serif; line-height:1.7; }
+  .wrap { max-width:1100px; margin:48px auto; padding:0 20px; }
+  header { margin-bottom:28px; text-align:center; }
+  h1 { font-size:2.2rem; margin:0 0 6px 0; }
+  .meta { color:var(--muted); font-size:.95rem; }
+  h2 { margin-top:36px; padding-top:10px; border-top:1px solid #1b2430; font-size:1.35rem; }
+  h3 { margin-top:18px; font-size:1.1rem; color:#d6e6ff; }
+  p.lead { font-size:1.05rem; color:#d2e4ff; }
+  .panel { background:var(--panel); border:1px solid #1b2430; border-radius:10px; padding:16px 18px; margin:16px 0; }
+  ul,ol { padding-left:1.2em; }
+  .tag { display:inline-block; padding:.15rem .5rem; border:1px solid #223044; border-radius:6px; color:#cfe7ff; margin-right:.35rem; font-size:.9rem; }
+  .callout { border-left:4px solid var(--accent); padding:8px 12px; background:#0e141d; }
+  footer { margin:40px 0 60px; color:var(--muted); font-size:.9rem; text-align:center; }
+  nav { text-align:center; margin-bottom:40px; }
+  nav a { color:var(--accent); margin:0 8px; text-decoration:none; }
+  nav a:hover { text-decoration:underline; }
+  table { border-collapse:collapse; width:100%; margin:10px 0; }
+  th,td { border:1px solid #1b2430; padding:6px 8px; text-align:left; }
+  .kpi { display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap:10px; }
+  .kpi .card { background:#0e141d; border:1px solid #1c2735; border-radius:10px; padding:12px; }
+  .muted { color:var(--muted); }
+  .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+  img { max-width:100%; border-radius:10px; border:1px solid #1b2430; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>Rebonix 白皮书 v1.1 — 完整版（扩展内容 · 第1–8章 + 可行性附录）</h1>
+  <div class="meta">生成时间：2025-10-15 08:48</div>
+</header>
+
+<nav>
+  <a href="#exec">执行摘要</a> |
+  <a href="#ch1">第1章 前言与愿景</a> |
+  <a href="#ch2">第2章 用户痛点</a> |
+  <a href="#ch3">第3章 概念与系统架构</a> |
+  <a href="#ch4">第4章 产品双轨结构</a> |
+  <a href="#ch5">第5章 市场定位</a> |
+  <a href="#ch6">第6章 演化路径</a> |
+  <a href="#ch7">第7章 盈利模式</a> |
+  <a href="#ch8">第8章 风控体系</a> |
+  <a href="#app">附录A 可行性冷静评估</a>
+</nav>
+
+<section id="exec" class="panel">
+  <h2>执行摘要（Executive Summary）</h2>
+  <p class="lead">Rebonix = Emotional Finance Layer（情绪金融层）。把“后悔 / 错过 / FOMO”参数化为可定价、可结算的票据，形成一个透明、可审计的情绪风险清算系统。</p>
+  <div class="kpi">
+    <div class="card"><strong>定位</strong><br/>参数化保险 × 结构性票据 × 行为金融</div>
+    <div class="card"><strong>用户门槛</strong><br/>1–5 USDT，小额高频、7D 周期</div>
+    <div class="card"><strong>风控核心</strong><br/>用户票据内生对冲 + 外部期权残差对冲</div>
+  </div>
+</section>
+
+<h2 id="ch1">第1章：前言与愿景</h2>
+<div class="panel">
+<p>我们所处的时代，投资工具极度发达，但普通人的“情绪成本”却从未被定价。Rebonix 的使命：<strong>让情绪被定价，让后悔可被结算。</strong></p>
+<ul>
+  <li>从“理性金融”到“行为金融”，下一步是“<strong>情绪金融</strong>”。</li>
+  <li>不是博彩，也不是传统保险，而是“<strong>确定性幻想</strong>”的参与方式。</li>
+  <li>以透明合约与参数化赔付，重建用户信任。</li>
+</ul>
+</div>
+
+<h2 id="ch2">第2章：用户痛点与问题定义</h2>
+<div class="panel">
+<ol>
+  <li>长期看多者的<strong>短期恐惧</strong>：回撤时心理压力巨大。</li>
+  <li>衍生品<strong>学习门槛高</strong>：希腊字母、行权价阻碍大众参与。</li>
+  <li><strong>心态价值未被定价</strong>：市场只有价格风险，没有情绪价格。</li>
+  <li>现有预测市场解决“事件博弈”，不解决“心态管理”。</li>
+</ol>
+<p class="callout">Rebonix 将“后悔值”转化为可买卖的“心安票”。</p>
+</div>
+
+<h2 id="ch3">第3章：Rebonix 概念与系统架构</h2>
+<div class="panel">
+<h3>系统定义</h3>
+<p><strong>Rebonix = Ticket Layer + Vault Layer + Hedge Layer</strong>；由 Oracle（Pyth/Chainlink）驱动，自动参数化赔付。</p>
+<h3>三层结构</h3>
+<ul>
+  <li><strong>Ticket Layer：</strong>UP / DOWN / RANGE 票据（1–5U，7D）。</li>
+  <li><strong>Vault Layer：</strong>保费池、赔付池、风险缓冲金库，公开透明。</li>
+  <li><strong>Hedge Layer：</strong>对接 Deribit / OKX / Lyra 做残差对冲。</li>
+</ul>
+<pre><code>用户买票 → 保费入池 → Oracle 结算 → 自动赔付 → 风控引擎复盘（调价/对冲）</code></pre>
+<p><img src='sandbox:/mnt/data/A_flowchart_chart_in_the_image_titled_"风险控制与对冲架构"_.png' alt='风险控制与对冲架构图' /></p>
+</div>
+
+<h2 id="ch4">第4章：产品双轨结构</h2>
+<div class="panel">
+<table>
+  <tr><th>轨道</th><th>产品</th><th>心理价值</th><th>周期</th><th>内核结构</th><th>主要人群</th></tr>
+  <tr><td>A</td><td>Smart Exposure Vault（聪明仓）</td><td>长期看多、回撤防抖</td><td>30–90天</td><td>定投 + 小额保险 + Delta 对冲</td><td>定投者、轻波段玩家</td></tr>
+  <tr><td>B</td><td>Parametric Price Ticket（参数化票据）</td><td>短期行情体验与话题传播</td><td>7天</td><td>UP / DOWN / RANGE + Oracle 赔付</td><td>泛用户、社群/KOL</td></tr>
+</table>
+<p>两轨共享同一风控与结算底座，内部形成<strong>用户间对冲</strong>，使平台净风险趋近于零。</p>
+</div>
+
+<h2 id="ch5">第5章：市场对照与创新定位</h2>
+<div class="panel">
+<ul>
+  <li><strong>PoolTogether：</strong>无损抽奖，验证“确定性幻想”的可行性。</li>
+  <li><strong>Dopex / Ribbon：</strong>结构性 Vault，期权底层成熟。</li>
+  <li><strong>Polymarket / Kalshi：</strong>预测票据的合规样本（参数化事件）。</li>
+  <li><strong>InsureDAO / Risk Harbor：</strong>参数化保险的链上理赔范式。</li>
+</ul>
+<p>Rebonix 的创新在于：把这些积木以<strong>情绪金融</strong>的语言拼接，服务大众用户。</p>
+</div>
+
+<h2 id="ch6">第6章：演化路径与情绪金融新层</h2>
+<div class="panel">
+<ol>
+  <li>1980s–2000s：银行结构性票据 = 债 + 期权（机构套利）。</li>
+  <li>2019–2023：链上结构化 Vault（Dopex/Ribbon）。</li>
+  <li>2025–：Rebonix 把结构逻辑情绪化、参数化（大众化参与）。</li>
+</ol>
+</div>
+
+<h2 id="ch7">第7章：商业模式与可持续盈利设计</h2>
+<div class="panel">
+<h3>核心理念</h3>
+<p>先信任、后盈利：初期<strong>零抽成</strong>，所有保费进入金池；规模达标再收取<strong>5% 技术服务费</strong>。</p>
+<h3>阶段性路径</h3>
+<ol>
+  <li><strong>Phase 1：</strong>信任建设期（无抽成；透明审计）；</li>
+  <li><strong>Phase 2：</strong>生态稳态期（技术服务费 + 风险缓冲）；</li>
+  <li><strong>Phase 3：</strong>生态协作期（API 费 / 品牌合作 / RXN 代币）。</li>
+</ol>
+<h3>收益来源模型</h3>
+<table>
+<tr><th>模块</th><th>收益来源</th><th>合规属性</th></tr>
+<tr><td>保费金池</td><td>风险溢价差</td><td>参数化保险</td></tr>
+<tr><td>API 合作</td><td>SDK 调用费</td><td>技术服务</td></tr>
+<tr><td>品牌合作</td><td>联合推广 / 导流分成</td><td>市场合作</td></tr>
+<tr><td>代币系统</td><td>质押收益 / 回购销毁</td><td>治理激励</td></tr>
+</table>
+<h3>与交易所协同</h3>
+<ul>
+  <li>联合品牌产品（OKX × Rebonix 聪明仓）。</li>
+  <li>投顾 API 嵌入定投界面（添加 FOMO Cover）。</li>
+  <li>匿名定投数据 → 风控模型优化。</li>
+</ul>
+</div>
+
+<h2 id="ch8">第8章：风险控制与对冲体系设计</h2>
+<div class="panel">
+<h3>三层防线</h3>
+<ol>
+  <li>票据层：小额 / 高频 / 固定赔付（分散单票风险）。</li>
+  <li>内部对冲层：UP vs DOWN 互抵 + 拥挤度调价。</li>
+  <li>外部对冲层：Deribit / OKX / Lyra 做残差对冲。</li>
+</ol>
+<h3>关键风控指标</h3>
+<table>
+  <tr><th>指标</th><th>定义</th><th>目标值</th></tr>
+  <tr><td>赔付率 p</td><td>实际赔付 / 总票数</td><td>&lt; 10%</td></tr>
+  <tr><td>内部对冲率 ΔH</td><td>|UP金额 − DOWN金额| / 总票金额</td><td>&lt; 25%</td></tr>
+  <tr><td>缓冲覆盖率 BCR</td><td>BufferVault / 99%分位赔付</td><td>&gt; 1.2</td></tr>
+  <tr><td>净敞口 NE</td><td>Σ(潜在赔付 − 对冲收益)</td><td>&lt; 5%</td></tr>
+  <tr><td>系统健康指数 S</td><td>S = 1 − (p + ΔH/100 + 1/BCR)</td><td>&gt; 0.8</td></tr>
+</table>
+<h3>动态对冲算法（伪代码）</h3>
+<pre><code>if imbalance_ratio &gt; 0.25 or expected_payout &gt; buffer_balance * 1.5:
+    hedge_size = expected_payout - buffer_balance
+    buy_put_option(exchange="Deribit", amount=hedge_size, duration="7d")
+else:
+    continue_issue_tickets()</code></pre>
+<h3>Oracle 与透明结算层</h3>
+<p>价格源：Pyth / Chainlink / RedStone；结算以 TWAP/median 为准，所有赔付与对冲上链可查。</p>
+<p><img src='sandbox:/mnt/data/A_flowchart_chart_in_the_image_titled_"风险控制与对冲架构"_.png' alt='风险控制与对冲架构图（示意）' /></p>
+<h3>样板模型与下载</h3>
+<ul>
+  <li><a href="sandbox:/mnt/data/smart_vault_weekly_summary.csv">下载：Smart Vault — Weekly Summary（CSV）</a></li>
+  <li><a href="sandbox:/mnt/data/smart_vault_sensitivity.csv">下载：Smart Vault — Sensitivity（CSV）</a></li>
+</ul>
+</div>
+
+<h2 id="app">附录A：可行性冷静评估（Feasibility Thesis，节选）</h2>
+<div class="panel">
+<p class="lead"><strong>灵魂拷问：</strong>逻辑简单、叙事漂亮，为何多年无人真正做成？我们是否高估落地性？</p>
+<ol>
+  <li><strong>像博彩 → 合规高压：</strong>缺乏“参数化保险/预测订阅”的正确包装。</li>
+  <li><strong>技术是拼装题：</strong>Oracle + 期权 + Vault + 保险 + 合规，需要跨学科协同。</li>
+  <li><strong>风控建模难：</strong>高频、小额、定额赔付对概率与拥挤度定价要求高。</li>
+  <li><strong>叙事断层：</strong>金融人讲收益，用户要心安；缺“情绪价值”的产品难破圈。</li>
+</ol>
+<p><strong>技术可行性：</strong>80% 积木可复用，20% 在正确拼接（内生对冲、拥挤度调价、外部期权残差对冲）。</p>
+<p><strong>商业可持续：</strong>只要 p &lt; 8%、E[π]/F 在 40–60%、BCR &gt; 1.2，即可形成非庞氏自洽闭环。</p>
+<p class="callout"><strong>一句话：</strong>这不是造火箭，而是把成熟积木以更人性的方式拼起来。</p>
+</div>
+
+<footer>
+  <p>© Rebonix / FOMOCare — Whitepaper v1.1 ・ 本文整合核心章节与可行性附录，适合对外沟通与内部评审。</p>
+</footer>
+</div>
+</body>
+</html>
