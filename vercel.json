@@ -1,10 +1,6 @@
 {
   "routes": [
     {
-      "src": "/",
-      "dest": "/Rebonix_whitepaper_full_v1.1.html" 
-    },
-    {
       "src": "/(.*\\.html)", 
       "dest": "/$1"
     },
