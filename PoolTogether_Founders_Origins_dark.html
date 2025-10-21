@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PoolTogether · 创始人与灵感起源（夜色版）</title>
+<style>
+  :root{
+    --bg:#0b0c10; --bg2:#111219; --text:#e8e8ea; --muted:#9aa0aa;
+    --brand:#f5c84b; --link:#9fd1ff; --card:#0f1117; --border:#1b1e27; --code:#0a0d14;
+  }
+  html,body{background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;margin:0;padding:0}
+  .wrap{max-width:980px;margin:0 auto;padding:48px 22px}
+  header{display:flex;align-items:center;gap:14px;margin-bottom:28px}
+  .logo{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#1f222c,#0f1117);border:1px solid var(--border);position:relative;box-shadow:0 0 0 1px rgba(245,200,75,.3) inset}
+  .logo:after{content:"R";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--brand);font-weight:800}
+  h1{font-size:28px;margin:0}
+  h2{font-size:20px;margin:26px 0 10px;color:var(--brand)}
+  p{line-height:1.8;margin:8px 0}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;margin:14px 0}
+  .grid{display:grid;gap:14px}
+  @media(min-width:940px){.grid-2{grid-template-columns:1fr 1fr}}
+  .muted{color:var(--muted)}
+  a{color:var(--link);text-decoration:none}
+  a:hover{color:#c6e4ff}
+  ul{margin:6px 0 6px 18px}
+  li{margin:6px 0}
+  footer{margin-top:38px;border-top:1px solid var(--border);padding-top:16px;text-align:center;color:var(--muted);font-size:13px}
+  .ens{margin-top:6px}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="logo"></div>
+      <div>
+        <h1>PoolTogether · 创始人与灵感起源（夜色版）</h1>
+        <div class="muted">Prize‑Linked Savings 在 Web3 的重生</div>
+      </div>
+    </header>
+
+    <div class="card">
+      <h2>一、核心人物</h2>
+      <h3 style="margin:6px 0 4px">1) Leighton Cusack（CEO / 联合创始人）</h3>
+      <ul>
+        <li>美国；明尼苏达大学商学院金融学本科</li>
+        <li>早期从事理财产品与用户增长，长期关注行为金融</li>
+        <li>2017 接触以太坊后，探索“智能合约自动理财”</li>
+        <li>受 Prize‑Linked Savings 启发，萌生“让储蓄像彩票一样有趣”的想法</li>
+      </ul>
+      <p class="muted">“人类不擅长理性储蓄，但擅长追逐刺激。让储蓄变得像买彩票一样好玩。”</p>
+
+      <h3 style="margin:12px 0 4px">2) Brendan Asselstine（CTO / 联合创始人）</h3>
+      <ul>
+        <li>加拿大工程师，Solidity 架构与安全审计背景</li>
+        <li>以太坊早期可组合金融的倡导者</li>
+        <li>提出“无损抽奖”核心合约结构：存款生息 + 奖励分配，本金无损</li>
+      </ul>
+      <p class="muted">“如果彩票能让人上瘾，为何不让储蓄上瘾？把激励方向改一下即可。”</p>
+    </div>
+
+    <div class="card">
+      <h2>二、项目灵感源头</h2>
+      <ol>
+        <li><strong>现实金融原型：</strong>Prize‑Linked Savings（奖储账户）。本金安全，利息汇成奖池抽奖，最早可追溯至英国 1956 年 Premium Bonds。</li>
+        <li><strong>技术触发点：</strong>以太坊 + Compound/Aave 使“利息来源”可链上自动化，替代传统银行利息。</li>
+        <li><strong>使命陈述：</strong>“A protocol for building saving games — games that reward you for saving money.”</li>
+      </ol>
+    </div>
+
+    <div class="card">
+      <h2>三、理念与意义</h2>
+      <ul>
+        <li><strong>行为金融：</strong>把“贪婪”转化为“储蓄动力”。</li>
+        <li><strong>社会金融：</strong>帮助年轻人提升储蓄率、减少高风险投机。</li>
+        <li><strong>技术治理：</strong>透明、去托管的奖池合约，重塑传统彩票信任问题。</li>
+      </ul>
+    </div>
+
+    <footer>
+      <div>© Rebonix / EmoX / FOMOCare · Emotional Finance Layer</div>
+      <div class="ens">
+        🔗 Verified on-chain:
+        <a href="https://app.ens.domains/name/rebonix.eth" target="_blank" rel="noopener">rebonix.eth</a> ·
+        <a href="https://app.ens.domains/name/emox.eth" target="_blank" rel="noopener">emox.eth</a> ·
+        <a href="https://app.ens.domains/name/fomocare.eth" target="_blank" rel="noopener">fomocare.eth</a>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>

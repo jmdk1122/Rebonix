@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PoolTogether → Rebonix：从无损抽奖到情绪保险的演化路径（夜色版）</title>
+<style>
+  :root{
+    --bg:#0b0c10; --bg2:#111219; --text:#e8e8ea; --muted:#9aa0aa;
+    --brand:#f5c84b; --link:#9fd1ff; --card:#0f1117; --border:#1b1e27; --code:#0a0d14;
+  }
+  html,body{background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;margin:0;padding:0}
+  .wrap{max-width:980px;margin:0 auto;padding:48px 22px}
+  header{display:flex;align-items:center;gap:14px;margin-bottom:28px}
+  .logo{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#1f222c,#0f1117);border:1px solid var(--border);position:relative;box-shadow:0 0 0 1px rgba(245,200,75,.3) inset}
+  .logo:after{content:"R";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--brand);font-weight:800}
+  h1{font-size:28px;margin:0}
+  h2{font-size:20px;margin:26px 0 10px;color:var(--brand)}
+  p{line-height:1.8;margin:8px 0}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;margin:14px 0}
+  .grid{display:grid;gap:14px}
+  @media(min-width:940px){.grid-2{grid-template-columns:1fr 1fr} .grid-3{grid-template-columns:1fr 1fr 1fr}}
+  .muted{color:var(--muted)}
+  a{color:var(--link);text-decoration:none}
+  a:hover{color:#c6e4ff}
+  code{background:var(--code);padding:2px 6px;border-radius:6px;border:1px solid var(--border);font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,"Liberation Mono","Courier New",monospace}
+  ul{margin:6px 0 6px 18px}
+  li{margin:6px 0}
+  footer{margin-top:38px;border-top:1px solid var(--border);padding-top:16px;text-align:center;color:var(--muted);font-size:13px}
+  .ens{margin-top:6px}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="logo"></div>
+      <div>
+        <h1>PoolTogether → Rebonix：从无损抽奖到情绪保险的演化路径（夜色版）</h1>
+        <div class="muted">把人性机制协议化：贪婪 → 奖励储蓄；恐惧 → 情绪对冲</div>
+      </div>
+    </header>
+
+    <div class="card">
+      <h2>一、起点：把“彩票”变成“储蓄游戏”</h2>
+      <ul>
+        <li><strong>创立</strong>：2019 · Leighton Cusack、Brendan Asselstine</li>
+        <li><strong>概念</strong>：Prize-Linked Savings —— 存款不亏本金，利息汇成奖池抽奖</li>
+      </ul>
+      <p><strong>模式核心</strong>：存 USDC/DAI → 存款协议生息 → 本金返还，利息抽奖（No‑Loss Lottery）。</p>
+    </div>
+
+    <div class="grid grid-2">
+      <div class="card">
+        <h2>二、DeFi Summer 的爆发与困境（2020）</h2>
+        <ul>
+          <li>TVL 曾超过 3 亿美元</li>
+          <li>困境：监管灰区、用户疲劳、盈利单一</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h2>三、从 App 到 Protocol（2021–2023）</h2>
+        <ul>
+          <li>成立 DAO，发布 POOL 治理代币</li>
+          <li>V4 模块化：任何协议可创建子奖池</li>
+          <li><strong>定位升级</strong>：Prize‑Savings Layer（储蓄激励层）</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>四、时间线与理念演化</h2>
+      <ul>
+        <li>V1–V2：固定奖池/周期 → “去中心化彩票”</li>
+        <li>V3：多奖池化 → 生态雏形</li>
+        <li>V4：模块化协议层 → 奠定 Layer 概念</li>
+        <li>V5：Builder SDK + DAO 运营 → “奖励基础设施”</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>五、启示与教训</h2>
+      <ul>
+        <li>叙事需避开“博彩”语义，强调理性激励</li>
+        <li>情绪价值要可持续：确定性 > 刺激性</li>
+        <li>独立 App 难持久，需协议化/服务化</li>
+        <li>DAO 要有可持续收入模型</li>
+      </ul>
+    </div>
+
+    <div class="grid grid-2">
+      <div class="card">
+        <h2>六、Rebonix：延续而升维</h2>
+        <table style="width:100%;border-collapse:collapse">
+          <tr>
+            <td style="border-bottom:1px solid var(--border);padding:6px 0"><strong>驱动力</strong></td>
+            <td style="border-bottom:1px solid var(--border);padding:6px 0">PoolTogether：贪婪 → 奖励储蓄</td>
+            <td style="border-bottom:1px solid var(--border);padding:6px 0">Rebonix：恐惧/后悔 → 情绪对冲</td>
+          </tr>
+          <tr>
+            <td style="padding:6px 0"><strong>用户动机</strong></td>
+            <td style="padding:6px 0">想“多赚”</td>
+            <td style="padding:6px 0">不想“亏/后悔”</td>
+          </tr>
+          <tr>
+            <td style="padding:6px 0"><strong>模型</strong></td>
+            <td style="padding:6px 0">无损抽奖（正和）</td>
+            <td style="padding:6px 0">参数化保险（零和+情绪溢价）</td>
+          </tr>
+          <tr>
+            <td style="padding:6px 0"><strong>成熟形态</strong></td>
+            <td style="padding:6px 0">Prize‑Savings Layer</td>
+            <td style="padding:6px 0">Emotional‑Finance Layer</td>
+          </tr>
+        </table>
+      </div>
+      <div class="card">
+        <h2>七、商业逻辑上的继承与超越</h2>
+        <ul>
+          <li>从贪婪中提取正向激励 → 从恐惧中提取理性价值</li>
+          <li>抽奖的概率分配 → 保险的参数化赔付</li>
+          <li>奖励金再分配 → 心理保费再分配</li>
+          <li>Yield × Lottery → Emotional Risk × Parametric Insurance</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>八、结论</h2>
+      <p>共识：都让“人性”在去中心化系统内被结构化利用。</p>
+      <p>PoolTogether 证明：当<strong>贪婪</strong>被结构化，金融更温柔；Rebonix 将证明：当<strong>恐惧</strong>被精算化，市场更理性。</p>
+    </div>
+
+    <div class="card">
+      <h2>九、未来衔接建议</h2>
+      <ul>
+        <li>PoolTogether 可嵌入 FOMOCare 选项，提供“反后悔”对冲。</li>
+        <li>Rebonix 可调用 Prize 池收益作为再保险来源。</li>
+      </ul>
+    </div>
+
+    <footer>
+      <div>© Rebonix / EmoX / FOMOCare · Emotional Finance Layer</div>
+      <div class="ens">
+        🔗 Verified on-chain:
+        <a href="https://app.ens.domains/name/rebonix.eth" target="_blank" rel="noopener">rebonix.eth</a> ·
+        <a href="https://app.ens.domains/name/emox.eth" target="_blank" rel="noopener">emox.eth</a> ·
+        <a href="https://app.ens.domains/name/fomocare.eth" target="_blank" rel="noopener">fomocare.eth</a>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
