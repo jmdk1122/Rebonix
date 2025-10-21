@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Rebonix 上线前注册与环境配置路线图 v1.0</title>
+<style>
+:root { --bg:#0b1220; --panel:#0f172a; --text:#e5e7eb; --muted:#94a3b8; --accent:#fbbf24; --line:#1e293b; }
+html,body{background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.85;margin:0}
+.wrap{max-width:1100px;margin:44px auto;padding:0 20px}
+header{text-align:center;margin-bottom:20px}
+h1{font-size:1.9rem;color:var(--accent);margin-bottom:.3rem}
+.meta{color:var(--muted);font-size:.9rem}
+section{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px;margin:14px 0}
+h2{color:#fcd34d;font-size:1.25rem;margin-top:0.5rem}
+h3{color:#cbd5ff;font-size:1.05rem;margin:.4rem 0}
+p,li{margin:0.8em 0}
+table{border-collapse:collapse;width:100%;margin:12px 0}
+th,td{border:1px solid #1f2a44;padding:10px 12px;text-align:left;vertical-align:top}
+th{background:#0c1a31;color:#cbe6ff}
+.code{background:#0b132b;border:1px solid #1f2a44;border-radius:8px;padding:12px;overflow:auto;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.9rem}
+.small{font-size:.92rem;color:var(--muted)}
+footer{color:var(--muted);font-size:.85rem;text-align:center;margin:36px 0 20px}
+img{max-width:100%;border-radius:10px;border:1px solid #1f2a44;margin:10px 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Rebonix 上线前注册与环境配置路线图 v1.0</h1>
+    <div class="meta">生成时间：2025-10-18 15:54 ｜ 作者签名：Founder CAI XUHUI (JK)</div>
+  </header>
+
+  <section>
+    <h2>0. 当前状态概览</h2>
+    <p>你已完成本地文件的品牌迁移、命名规范化与页脚统一，现在进入“线上注册与环境配置”阶段。本路线图旨在帮助你逐步注册、配置并验证 Rebonix 的完整网络身份与托管环境。</p>
+    <img src="sandbox:/mnt/data/Rebonix 域名WHOIS.JPG" alt="Cloudflare 域名注册截图">
+    <p class="small">↑ Cloudflare 域名确权截图（所有主域 rebonix.io / emox.ai / fomocare.io 已注册并启用自动续订）</p>
+  </section>
+
+  <section>
+    <h2>1. 必要注册清单（推荐顺序）</h2>
+    <table>
+      <tr><th>注册类型</th><th>平台</th><th>目的</th><th>优先级</th></tr>
+      <tr><td>GitHub</td><td><a href="https://github.com" target="_blank">github.com</a></td><td>版本控制、文件托管、与 Vercel 自动连接</td><td>🥇 必做</td></tr>
+      <tr><td>Vercel</td><td><a href="https://vercel.com" target="_blank">vercel.com</a></td><td>部署 HTML 站点 / 白皮书，提供临时域名测试</td><td>🥇 必做</td></tr>
+      <tr><td>Cloudflare</td><td><a href="https://cloudflare.com" target="_blank">cloudflare.com</a></td><td>域名管理、SSL、CDN、安全防护</td><td>✅ 已完成一半</td></tr>
+      <tr><td>ENS 域名</td><td><a href="https://ens.domains" target="_blank">ens.domains</a></td><td>链上确权：注册 rebonix.eth / fomocare.eth</td><td>🥈 建议</td></tr>
+      <tr><td>Twitter / X</td><td><a href="https://x.com" target="_blank">x.com/signup</a></td><td>注册官方品牌账号 @RebonixAI / @FOMOCare</td><td>🥇 建议立即抢注</td></tr>
+      <tr><td>Email Routing</td><td>Cloudflare Email / Google Workspace</td><td>设置品牌邮箱 founder@rebonix.io</td><td>🥈 可选</td></tr>
+    </table>
+  </section>
+
+  <section>
+    <h2>2. GitHub 与 Vercel 注册与连接步骤</h2>
+    <ol>
+      <li>创建 <strong>GitHub 账户</strong> → 登录后新建仓库 <code>Rebonix</code>。</li>
+      <li>上传所有 HTML / 文档文件，可设为私有或公开。</li>
+      <li>在 <strong>Vercel</strong> 使用 GitHub 登录，点击「Import Project」。</li>
+      <li>选择仓库 <code>Rebonix</code> → Framework 选择「Other」→ 部署。</li>
+      <li>部署后生成地址：例如 <code>https://rebonix.vercel.app</code>。</li>
+    </ol>
+    <div class="code"># 测试命令（验证部署）
+$ curl -I https://rebonix.vercel.app</div>
+  </section>
+
+  <section>
+    <h2>3. Cloudflare DNS → Vercel 绑定模板</h2>
+    <div class="code">CNAME  www   cname.vercel-dns.com   Proxied=ON
+A      @     76.76.21.21           Proxied=ON</div>
+    <p>完成后，在浏览器中访问 <code>https://www.rebonix.io</code> 即可跳转到你的 Vercel 部署页面。确保 SSL 模式设为 <strong>Full (Strict)</strong>，并启用「Always Use HTTPS」。</p>
+  </section>
+
+  <section>
+    <h2>4. ENS 域名与链上确权</h2>
+    <p>ENS（Ethereum Name Service）是链上域名系统，用于确立 Rebonix 的 Web3 身份。</p>
+    <ol>
+      <li>访问 <a href="https://app.ens.domains" target="_blank">ens.domains</a></li>
+      <li>连接 MetaMask 钱包，搜索并注册：<br><code>rebonix.eth</code> 与 <code>fomocare.eth</code></li>
+      <li>在 ENS 设置中绑定你的主域名：<br><code>contenthash → rebonix.io</code></li>
+      <li>未来可在白皮书页脚加入链上验证标签：</li>
+    </ol>
+    <div class="code">🔗 Verified on-chain: rebonix.eth</div>
+  </section>
+
+  <section>
+    <h2>5. Twitter / X 账号注册与品牌保护</h2>
+    <ul>
+      <li>前往 <a href="https://x.com/signup" target="_blank">x.com/signup</a></li>
+      <li>注册以下优先账号：<br>
+          • <strong>@Rebonix</strong><br>
+          • <strong>@RebonixAI</strong><br>
+          • <strong>@FOMOCare</strong></li>
+      <li>建议使用统一头像（黑金主题）与简介：<br>
+          “Rebonix — The Emotional Finance Protocol. Powered by EmoX.”</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>6. 安全检查与最佳实践</h2>
+    <ul>
+      <li>Cloudflare：开启 WAF、Bot Fight Mode、防火墙规则。</li>
+      <li>Vercel：启用访问日志与 Analytics，防止滥用。</li>
+      <li>GitHub：设置 2FA，定期备份仓库到 NAS。</li>
+      <li>邮箱：添加 SPF / DKIM / DMARC 记录，防止钓鱼。</li>
+      <li>建议创建 <code>README_Rebrand.txt</code> 与 <code>CHANGELOG.md</code> 归档迁移历史。</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>7. 下一阶段路线图（推荐执行顺序）</h2>
+    <ol>
+      <li>部署 <code>rebonix.io</code> 首页 → 放置白皮书与项目介绍。</li>
+      <li>在 <code>emox.ai</code> 建立 AI 实验室展示页。</li>
+      <li>在 <code>fomocare.io</code> 发布用户故事与产品预览。</li>
+      <li>完成 ENS / Twitter 公告，确立品牌主权。</li>
+      <li>准备白皮书 v2.0 与 MVP 测试阶段。</li>
+    </ol>
+  </section>
+
+  <footer>
+    © Rebonix / FOMOCare — Powered by EmoX • 2025<br>
+    Founder CAI XUHUI (JK)
+  </footer>
+</div>
+</body>
+</html>
