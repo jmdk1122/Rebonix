@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Rebonix 风控架构：Safe Launch 版本（白皮书专用章节）</title>
+<style>
+  :root {
+    --bg:#0b1220; --panel:#0f172a; --text:#e5e7eb; --muted:#93a2b8;
+    --accent:#60a5fa; --accent2:#34d399; --warn:#f59e0b; --danger:#f87171;
+    --line:#1e293b;
+  }
+  html,body{background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.75;margin:0}
+  .wrap{max-width:1100px;margin:48px auto;padding:0 20px}
+  header{margin-bottom:18px}
+  h1{font-size:2rem;margin:.2rem 0 .4rem}
+  .meta{color:var(--muted);font-size:.9rem}
+  section{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px;margin:16px 0}
+  h2{color:var(--accent);font-size:1.4rem;margin:.2rem 0 10px}
+  h3{color:#c7e1ff;font-size:1.05rem;margin:14px 0 8px}
+  p.lead{color:#cfd8e3;font-weight:500}
+  code,pre{background:#0b132b;border:1px solid #1f2a44;padding:.65rem .8rem;border-radius:8px;display:block;overflow:auto}
+  table{border-collapse:collapse;width:100%;margin:12px 0}
+  th,td{border:1px solid #1f2a44;padding:10px 12px;text-align:left;vertical-align:top}
+  th{background:#0c1a31;color:#cbe6ff}
+  .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:12px}
+  .callout{border-left:4px solid var(--warn);background:#2c2209;color:#ffe8b2;padding:12px 14px;border-radius:8px}
+  .ok{color:var(--accent2)}
+  .bad{color:var(--danger)}
+  .foot{color:var(--muted);font-size:.85rem;text-align:center;margin:28px 0}
+  .tag{display:inline-block;padding:.15rem .55rem;border:1px solid #1f2a44;border-radius:999px;color:#cbd5e1;margin-right:.4rem;font-size:.8rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>Rebonix 风控架构：Safe Launch 版本（白皮书专用章节）</h1>
+  <div class="meta">版本：v1.0 • 生成时间：2025-10-16 11:33 • 适用：白皮书章节 / 投资人技术附录</div>
+</header>
+
+<section>
+  <h2>0. 章节目的</h2>
+  <p class="lead">本章节定义 Rebonix 在<strong>早期试运行阶段（Safe Launch）</strong>的三层防线：<em>限量发行</em>、<em>动态赔率</em>、<em>残差对冲</em>。目标是确保在 AI/ML 行为模型尚未完全成熟前，系统的赔付风险被<strong>上限封顶且可验证</strong>。</p>
+</section>
+
+<section>
+  <h2>1. 三层防线（概览）</h2>
+  <table>
+    <tr><th>层级</th><th>机制</th><th>功能</th><th>关键指标</th></tr>
+    <tr><td>第一层</td><td>发行量上限（Ticket Cap）</td><td>限制总赔付上限，控制系统最大敞口</td><td>Cap、MaxPayout、BufferRatio(BCR)</td></tr>
+    <tr><td>第二层</td><td>动态赔率（Adaptive Pricing）</td><td>基于拥挤度调整票价/赔付，提升内部对冲率</td><td>p、E[π]/F、ΔH（内部对冲率）</td></tr>
+    <tr><td>第三层</td><td>残差对冲（Residual Hedge）</td><td>对极端单边行情进行外部对冲（期权/现货）</td><td>Hedge Ratio h、滑点/费率成本</td></tr>
+  </table>
+</section>
+
+<section>
+  <h2>2. 限量发行（Ticket Cap）</h2>
+  <p>设首次发行 <code>N = 10,000</code> 张票据，每张面值 <code>F</code>，最大赔付 <code>P_max</code> 固定。则早期运行期内系统最大赔付为：</p>
+  <pre><code>MaxPayout = N × P_max</code></pre>
+  <p>配合风险缓冲金 <code>Buffer</code> 与资金池 <code>Pool</code>，定义：</p>
+  <pre><code>BCR = (Pool + Buffer) / MaxPayout</code></pre>
+  <p>Safe Launch 要求 <strong>BCR ≥ 1.2</strong>（可根据实际调整至 1.3–1.5），确保即便出现极端单边赔付，系统亦可履约。</p>
+</section>
+
+<section>
+  <h2>3. 动态赔率（Adaptive Pricing）</h2>
+  <h3>3.1 拥挤度与价格映射</h3>
+  <p>令 <code>q</code> 为当前 UP 方向的占比（拥挤度），基础票价 <code>F</code>，价格调整函数 <code>f(q)</code>：</p>
+  <pre><code>TicketPrice_up   = F × f(q)
+TicketPrice_down = F × f(1 - q)</code></pre>
+  <p>在初版中，为简化实现与增强可解释性，采用<strong>区间分段</strong>而非连续函数：</p>
+  <table>
+    <tr><th>UP:DOWN 拥挤度</th><th>票价倍率 f(q)</th><th>赔付调整</th><th>说明</th></tr>
+    <tr><td>50:50 ±10%</td><td>1.00×</td><td>100%</td><td>基准区间</td></tr>
+    <tr><td>65:35</td><td>1.20×</td><td>90%</td><td>轻度拥挤</td></tr>
+    <tr><td>80:20</td><td>1.50×</td><td>75%</td><td>明显拥挤</td></tr>
+    <tr><td>≥90:10</td><td>2.00×</td><td>60%</td><td>极端拥挤（同时触发外部对冲阈值）</td></tr>
+  </table>
+  <h3>3.2 目标函数</h3>
+  <p>通过价格和赔付的双变量调节，提升内部对冲率 <code>ΔH</code>，并将 <code>p</code>（赔付概率目标）控制在 <span class="ok">&lt; 8%</span> 的区间。</p>
+  <div class="callout"><strong>实现要点：</strong>前端需透明展示价格/赔付随拥挤度变化的曲线或阶梯，形成“情绪—价格”的负反馈，抑制单边参与。</div>
+</section>
+
+<section>
+  <h2>4. 残差对冲（Residual Hedge）</h2>
+  <p>当拥挤度达到极端阈值（如 ≥90:10）或 <code>ΔH</code> 低于安全线（如 &lt; 0.6）时，触发外部对冲比例 <code>h</code>：</p>
+  <pre><code>h = α × (NetExposure / (Pool + Buffer))    # α ∈ [0.5, 0.7]</code></pre>
+  <p>执行路线：</p>
+  <ol>
+    <li>优先使用期权（Deribit/OKX）进行短期对冲；</li>
+    <li>单笔对冲设最小规模阈值与时间窗，降低费率与滑点；</li>
+    <li>所有对冲事件链上回写（时间戳、方向、数量、成本）。</li>
+  </ol>
+</section>
+
+<section>
+  <h2>5. 指标与告警</h2>
+  <table>
+    <tr><th>指标</th><th>定义</th><th>告警阈值</th><th>动作</th></tr>
+    <tr><td>p</td><td>周期赔付概率</td><td>&gt; 8% 连续 3 期</td><td>提高价格区间 / 降低赔付区间</td></tr>
+    <tr><td>E[π]/F</td><td>单位面值期望收益</td><td>&lt; 0.4 连续 2 期</td><td>提高基准票价 F 或缩小赔付</td></tr>
+    <tr><td>ΔH</td><td>内部对冲率</td><td>&lt; 0.6</td><td>触发外部对冲</td></tr>
+    <tr><td>BCR</td><td>缓冲比</td><td>&lt; 1.2</td><td>暂停发行 / 提升 Buffer</td></tr>
+  </table>
+</section>
+
+<section>
+  <h2>6. 用户体验与透明度</h2>
+  <ul>
+    <li>展示「当前拥挤度、价格倍率、潜在赔付」的简明卡片；</li>
+    <li>公示每期的概率与赔付统计图（周报）；</li>
+    <li>公开对冲记录与费用占比，构建「非庞氏」信任锚。</li>
+  </ul>
+</section>
+
+<section>
+  <h2>7. 版本演进</h2>
+  <ol>
+    <li><strong>v1（本章）</strong>：分段定价 + 固定阈值 + 手动参数校准；</li>
+    <li><strong>v2</strong>：引入 ML 对拥挤度进行短期预测，自动调节阶梯；</li>
+    <li><strong>v3</strong>：强化学习（RL）联合优化价格与赔付，目标最小化净敞口与波动；</li>
+    <li><strong>v4</strong>：全自动残差对冲编排 + 费用最优执行。</li>
+  </ol>
+</section>
+
+<section>
+  <h2>8. 小结</h2>
+  <p>通过「<strong>限量发行</strong> + <strong>动态赔率</strong> + <strong>残差对冲</strong>」三层防线，Rebonix 在缺少成熟 AI 行为模型的情况下依旧可以实现<strong>可控可审计的安全启动</strong>。此架构将用户情绪转化为价格信号，形成负反馈闭环，并将极端风险转移至受限范围内。</p>
+</section>
+
+<div class="foot">© Rebonix / FOMOCare — Safe Launch Risk Architecture v1.0</div>
+</div>
+</body>
+</html>
