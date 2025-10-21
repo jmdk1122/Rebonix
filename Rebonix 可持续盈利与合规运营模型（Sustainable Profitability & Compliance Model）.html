@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Rebonix 可持续盈利与合规运营模型（Sustainable Profitability & Compliance Model）</title>
+<style>
+  :root {
+    --bg:#0b0f14;
+    --panel:#121821;
+    --muted:#9db0c9;
+    --text:#e6eef8;
+    --accent:#55d1ff;
+    --accent2:#ffc857;
+    --ok:#6ee7b7;
+    --warn:#ff9d57;
+  }
+  html,body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,"PingFang SC","Noto Sans CJK SC","Microsoft YaHei",sans-serif; line-height:1.65; }
+  .wrap { max-width:1100px; margin:48px auto; padding:0 20px; }
+  header { margin-bottom:28px; }
+  h1 { font-size:2rem; margin:0 0 6px 0; }
+  .meta { color:var(--muted); font-size:.95rem; }
+  h2 { margin-top:28px; padding-top:10px; border-top:1px solid #1b2430; font-size:1.35rem; }
+  h3 { margin-top:18px; font-size:1.1rem; color:#d6e6ff; }
+  .panel { background:var(--panel); border:1px solid #1b2430; border-radius:10px; padding:16px 18px; margin:16px 0; }
+  ul,ol { padding-left:1.2em; }
+  .tag { display:inline-block; padding:.15rem .5rem; border:1px solid #223044; border-radius:6px; color:#cfe7ff; margin-right:.35rem; font-size:.9rem; }
+  .callout { border-left:4px solid var(--accent); padding:8px 12px; background:#0e141d; }
+  footer { margin:28px 0 40px; color:var(--muted); font-size:.9rem; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+<h1>Rebonix 可持续盈利与合规运营模型（Sustainable Profitability & Compliance Model）</h1>
+<div class="meta">版本：v1.0 ・ 生成时间：2025-10-15 07:10</div>
+</header>
+
+<h2>第七章：商业模式与可持续盈利设计</h2>
+<div class="panel">
+<h3>核心理念</h3>
+<p>以信任先行，不靠抽水盈利。Rebonix 的初期策略借鉴 PoolTogether：理念正确、风险低、结构透明、先赢信任再谈盈利。</p>
+
+<h3>阶段性盈利路径</h3>
+<ol>
+<li><strong>Phase 1：信任建设期（无抽成）</strong> — 所有保费收入进入赔付金池。</li>
+<li><strong>Phase 2：生态稳态期（5% 技术服务费）</strong> — 当资金池规模充足后，启动少量服务费。</li>
+<li><strong>Phase 3：生态协作期（API + 联合品牌 + 代币经济）</strong> — 多元化收入模型。</li>
+</ol>
+
+<h3>收益来源模型</h3>
+<table border="1" cellspacing="0" cellpadding="6">
+<tr><th>模块</th><th>收益来源</th><th>合规属性</th></tr>
+<tr><td>保费金池</td><td>风险溢价差</td><td>参数化保险</td></tr>
+<tr><td>API 合作</td><td>SDK 调用费</td><td>技术服务</td></tr>
+<tr><td>品牌合作</td><td>联合推广 / 导流分成</td><td>市场合作</td></tr>
+<tr><td>代币系统</td><td>质押收益 / 回购销毁</td><td>治理激励</td></tr>
+</table>
+
+<h3>与交易所协同路径</h3>
+<ul>
+<li>联合品牌产品：如「OKX × Rebonix 聪明仓」。</li>
+<li>投顾 API：在交易所定投页面出现「添加 FOMO Cover」。</li>
+<li>获取匿名定投数据用于算法优化，提升赔付稳定性。</li>
+</ul>
+
+<h3>代币经济模型（Tokenomics）</h3>
+<ul>
+<li>代币符号：<code>RXN</code></li>
+<li>功能：治理投票、对冲抵押、流动性激励、回购销毁。</li>
+<li>来源：保费抽成 / 合作收入 / 国库激励。</li>
+<li>目标：长期稳定的价值锚，而非短期投机。</li>
+</ul>
+</div>
+
+<h2>第八章：风险控制与对冲体系设计</h2>
+<div class="panel">
+<h3>风险哲学</h3>
+<p><strong>“Rebonix 不靠赢用户的钱，而靠让风险归零。”</strong><br>平台不押方向，核心目标是使系统的净敞口趋近于零。</p>
+
+<h3>三层风险防线</h3>
+<table border="1" cellspacing="0" cellpadding="6">
+<tr><th>层级</th><th>机制</th><th>说明</th></tr>
+<tr><td>第一层：票据层</td><td>小额 / 高频 / 固定赔付</td><td>单票风险极低，自然分散</td></tr>
+<tr><td>第二层：内部对冲层</td><td>UP / DOWN 用户票据互抵</td><td>系统自动平衡方向分布</td></tr>
+<tr><td>第三层：外部对冲层</td><td>期权仓 (Deribit / OKX / Lyra)</td><td>内部不平衡时由衍生品对冲残差</td></tr>
+</table>
+
+<h3>动态对冲算法</h3>
+<pre><code>if imbalance_ratio &gt; 0.25 or expected_payout &gt; buffer_balance * 1.5:
+    hedge_size = expected_payout - buffer_balance
+    buy_put_option(exchange="Deribit", amount=hedge_size, duration="7d")
+else:
+    continue_issue_tickets()</code></pre>
+
+<h3>关键风控指标</h3>
+<table border="1" cellspacing="0" cellpadding="6">
+<tr><th>指标</th><th>定义</th><th>目标值</th></tr>
+<tr><td>赔付率 p</td><td>实际赔付 / 总票数</td><td>&lt; 10%</td></tr>
+<tr><td>内部对冲率 ΔH</td><td>|UP票金额 − DOWN票金额| / 总票金额</td><td>&lt; 25%</td></tr>
+<tr><td>缓冲覆盖率 BCR</td><td>BufferVault / 99%分位赔付</td><td>&gt; 1.2</td></tr>
+<tr><td>净敞口 NE</td><td>Σ(潜在赔付 − 对冲仓收益)</td><td>&lt; 5%</td></tr>
+<tr><td>系统健康指数 S</td><td>S = 1 − (p + ΔH/100 + 1/BCR)</td><td>&gt; 0.8</td></tr>
+</table>
+
+<h3>Oracle 与透明结算层</h3>
+<ul>
+<li>数据源：Pyth / Chainlink / RedStone。</li>
+<li>价格取样：TWAP / Median。</li>
+<li>所有赔付、对冲记录链上可查，可审计。</li>
+</ul>
+
+<h3>演进目标</h3>
+<table border="1" cellspacing="0" cellpadding="6">
+<tr><th>阶段</th><th>目标</th><th>指标</th></tr>
+<tr><td>初期</td><td>对冲比 &lt; 20%</td><td>风险池 &gt; 50kU</td></tr>
+<tr><td>中期</td><td>用户间对冲占比 &gt; 70%</td><td>毛利率稳定</td></tr>
+<tr><td>成熟</td><td>用户对冲自足 + 智能调价</td><td>系统敞口 ≈ 0</td></tr>
+</table>
+
+<div class="callout"><strong>风险哲学总结：</strong>Rebonix 的核心价值不在赚取保费，而在于打造一个「风险平衡的市场机制」，让情绪风险通过参数化建模被清算。</div>
+</div>
+
+<footer>
+<p>© Rebonix / FOMOCare — Sustainable Profitability & Compliance Model v1.0</p>
+</footer>
+</div>
+</body>
+</html>

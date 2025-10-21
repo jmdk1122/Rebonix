@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rebonix Protocol / FOMOCare — 产品核心逻辑说明书（内部对齐版 v1.0）</title>
+<style>
+:root{ --ink:#111; --muted:#666; --brand:#0BD3A0; --bg:#ffffff; --panel:#fafafa; }
+html,body{ margin:0; padding:0; background:var(--bg); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC","Source Han Sans SC",Arial,sans-serif; line-height:1.65 }
+main{ max-width:960px; margin:28px auto; padding:0 16px }
+h1{ font-size:28px; margin:0 0 12px }
+h2{ font-size:22px; color:var(--brand); margin:28px 0 8px }
+h3{ font-size:18px; margin:22px 0 8px }
+p,li{ font-size:16px }
+hr{ border:none; height:1px; background:#eee; margin:22px 0 }
+.code{ font-family:ui-monospace,Menlo,Consolas,monospace; background:var(--panel); padding:2px 6px; border-radius:6px }
+.table{ width:100%; border-collapse:collapse; margin:8px 0 16px }
+.table th,.table td{ border:1px solid #eee; padding:8px 10px; text-align:left }
+.table th{ background:#f5f7f8 }
+.footer{ color:var(--muted); font-size:12px; margin:24px 0 }
+.note{ background:var(--panel); padding:10px 12px; border-radius:8px }
+</style>
+</head>
+<body>
+<main>
+  <h1>Rebonix Protocol / FOMOCare — 产品核心逻辑说明书（内部对齐版 v1.0）</h1>
+
+  <h2>0. TL;DR（给忙人）</h2>
+  <ul>
+    <li>我们卖的不是“中奖失败保险”，而是<strong>“错过机会的行为保险（Behavioral Insurance）”</strong>。</li>
+    <li>用户<strong>只需提交一个可验证的“计划”（Plan Commit）并支付小额保费 F</strong>，之后<strong>与其是否真的去交易无关</strong>。</li>
+    <li>若在“观察窗口 Δt”内，<strong>市场价格路径验证该计划本可赚钱且超过阈值 τ</strong>，触发<strong>定额赔付 G（如 k×F）</strong>。</li>
+    <li>本质：我们是<strong>期权卖方</strong>（卖一张“错过机会触发的 One-Touch/Lookback 型参数化赔付”），<strong>保费 = 收入</strong>，触发概率低 + 赔付封顶 ⇒ <strong>正期望</strong>。</li>
+    <li>两层品牌：<strong>Rebonix（协议层）</strong>：专业风控与结算；<strong>FOMOCare（应用层）</strong>：面向散户/KOL 的“情绪对冲”入口。</li>
+  </ul>
+  <hr/>
+
+  <h2>1. 产品定义与边界</h2>
+  <h3>1.1 我们在卖什么</h3>
+  <ul>
+    <li><strong>行为保险（Parametric Behavioral Insurance）</strong>：为“计划未执行/提前离场/未加杠杆”导致的<strong>机会成本</strong>提供<strong>参数化（不依赖理赔材料）</strong>的自动赔付。</li>
+    <li><strong>参数化</strong>意味着：只要<strong>链上可验证的计划参数</strong> + <strong>公开价格喂价</strong>满足触发条件，即自动结算，不看用户是否真的下单。</li>
+  </ul>
+  <h3>1.2 关键对象与变量</h3>
+  <p>计划（Plan）四元组：<strong>P = (标的 S、方向 D∈&#123;Long,Short&#125;、阈值 τ、窗口 Δt)</strong>。可选扩展：冷却期 c、参考价 s₀（commit 时取 TWAP/Median）、最大赔付 G 上限、费用 F。</p>
+  <ul>
+    <li><strong>触发条件（示例）</strong>：多头：在 [t₀+c, t₀+c+Δt] 内，<strong>价格涨幅 ≥ τ</strong>（相对 s₀）；空头：同窗内，<strong>价格跌幅 ≥ τ</strong>。</li>
+    <li><strong>赔付规则</strong>：常用<strong>定额</strong>（如 G = k×F），也可做“阶梯定额”。</li>
+  </ul>
+  <h3>1.3 核心差异点</h3>
+  <ul>
+    <li><strong>与真实交易解耦</strong>：用户是否真的下单、仓位多大，都不影响理赔判定（我们只看“计划 + 价格路径”）。</li>
+    <li><strong>标准化、可嵌入</strong>：任何交易平台/钱包/社区都可嵌入“计划卡片 → 付费 → 自动结算”的组件。</li>
+  </ul>
+  <hr/>
+
+  <h2>2. MVP 产品形态（首发 2–3 个就够）</h2>
+  <p><em>所有形态均遵循“计划承诺 → 冷却期 → 观察窗口 → 触发即赔”的统一流程。</em></p>
+  <h3>2.1「未下单险」Plan-but-No-Trade</h3>
+  <ul>
+    <li><strong>用户心智</strong>：我看多 ETH，但临门一脚没下；结果 24h 涨了 5%。</li>
+    <li><strong>触发</strong>：Long 且 24h 涨幅 ≥ 5%（或自定义 τ、Δt）。</li>
+    <li><strong>赔付</strong>：G = 10×F（例）。</li>
+    <li><strong>价值</strong>：门槛最低、教育成本小、最适合冷启动投放。</li>
+  </ul>
+  <h3>2.2「错过杠杆险」Missed-Leverage</h3>
+  <ul>
+    <li><strong>用户心智</strong>：本来想上 3×，临时怂了；如果真上杠杆，收益会更高。</li>
+    <li><strong>触发</strong>：方向正确且<strong>价格触达“等效杠杆收益”阈值</strong>（用价差阈值近似）。</li>
+    <li><strong>赔付</strong>：G = k×F（k 随 L、τ、Δt 动态）。</li>
+    <li><strong>价值</strong>：强情绪共鸣，客单价与毛利更高。</li>
+  </ul>
+  <h3>2.3「平仓后涨回险」Exit-Then-Rebound（可选）</h3>
+  <ul>
+    <li><strong>用户心智</strong>：卖飞了，结果短时间内又涨回 ≥ X%。</li>
+    <li><strong>触发</strong>：s₀ 取自“计划的退出价”（不要求真实下单），Δt 内上涨 ≥ τ。</li>
+    <li><strong>备注</strong>：若想完全不依赖真实交易，可让用户提交“计划退出价”作为 s₀。</li>
+  </ul>
+  <p><em>后续可扩展：「止损/止盈悔单险」「组合收益缩水险（NFT/LP/指数）」等。</em></p>
+  <hr/>
+
+  <h2>3. 用户路径与链上流程</h2>
+  <ol>
+    <li><strong>创建计划</strong>：填 S、D、τ、Δt（可有预设模板：+3%/24h、+5%/48h…）。</li>
+    <li><strong>计划承诺（Commit）</strong>：EIP-712 签名或上链存证；扣<strong>保费 F（USDC）</strong>。</li>
+    <li><strong>冷却期 c</strong>：防止用户在突发波动后“追着 K 线买保险”。</li>
+    <li><strong>观察窗口 Δt</strong>：调用 <strong>Chainlink/Pyth</strong>（TWAP/Median）按方向与阈值判断是否触发。</li>
+    <li><strong>结算</strong>：若触发，合约自动向用户地址<strong>支付 G（k×F）</strong>；否则无赔付。</li>
+    <li><strong>NFT 保单</strong>（可选）：每份计划铸造 NFT 作为凭证，可用于二级市场或 gamification。</li>
+  </ol>
+  <hr/>
+
+  <h2>4. 定价与盈利（保持正期望）</h2>
+  <h3>4.1 定价框架（原则导向）</h3>
+  <ul>
+    <li><strong>核心</strong>：保证 <span class="code">F &gt; p(trigger) × G</span>。</li>
+    <li><strong>p(trigger)</strong> 估计方法：简法（历史波动率 + Δt + 单边阈值 τ）、强化（One-Touch/障碍型近似或蒙特卡洛）。</li>
+    <li><strong>G（赔付）</strong>：建议定额上限（G = k×F，k 依参数分段）。</li>
+    <li><strong>F（保费）</strong>：基础费率 × 风险因子（σ、τ、Δt、方向拥挤度、资金池健康度）。</li>
+  </ul>
+  <h3>4.2 典型参数（建议起始）</h3>
+  <table class="table">
+    <thead><tr><th>参数</th><th>建议区间</th><th>备注</th></tr></thead>
+    <tbody>
+      <tr><td>阈值 τ</td><td>3% / 5% / 8%</td><td>预设档，便于营销与比较</td></tr>
+      <tr><td>窗口 Δt</td><td>12h / 24h / 48h</td><td>与波动率耦合，Δt 越长 p 越高</td></tr>
+      <tr><td>冷却期 c</td><td>10–15 min</td><td>防追涨/插针套利</td></tr>
+      <tr><td>倍数 k</td><td>5× / 10× / 20×</td><td>随 τ、Δt、σ 动态；上限 20×</td></tr>
+      <tr><td>单保单赔付上限</td><td>$100–$300</td><td>控尾部、控黑天鹅</td></tr>
+      <tr><td>单地址日限额</td><td>$300–$1,000</td><td>防刷子与相关性聚集</td></tr>
+    </tbody>
+  </table>
+  <h3>4.3 单保单期望</h3>
+  <p><strong>E[利润] = F − p(trigger) × G</strong>。触发概率低 + 赔付封顶 ⇒ 毛利接近 F（扣渠道分成）。</p>
+  <hr/>
+
+  <h2>5. 风控与反规避</h2>
+  <ul>
+    <li><strong>时间控制</strong>：冷却期后才进入观察窗；支持“宽松开始（Grace Start）”与“固定快照”。</li>
+    <li><strong>价格可信度</strong>：双预言机（Chainlink/Pyth），TWAP/Median 去噪；对极端蜡烛设异常过滤。</li>
+    <li><strong>相关性约束</strong>：同一标的/同方向/同参数的敞口分层计量，触发“拥挤度阈值”自动提价或限量。</li>
+    <li><strong>额度与分层</strong>：资金池分层（Senior/Junior），黑天鹅暂停开关；单地址/单标的/单窗口限额。</li>
+    <li><strong>计划承诺反舞弊</strong>：EIP-712 Commit-Reveal；计划锁定不可改；撤销仅退部分费用；相似度检测与冷却再购买。</li>
+  </ul>
+  <hr/>
+
+  <h2>6. 合作对接（怎么嵌）</h2>
+  <ul>
+    <li><strong>CEX/交易 App</strong>：计划卡片 SDK（调用我们合约），他们拿渠道分成；UI 一键“创建计划 → 支付 → 等待结算”。</li>
+    <li><strong>钱包/聚合器</strong>：在行情页/提醒页嵌“错过对冲”按钮。</li>
+    <li><strong>KOL/社区</strong>：推广码与返佣；KOL 可发“计划模板包”。</li>
+    <li><strong>DeFi/衍生品协议</strong>：把“行为保险”当增值模块，提升留存与净入金。</li>
+  </ul>
+  <hr/>
+
+  <h2>7. 品牌与叙事</h2>
+  <ul>
+    <li><strong>Rebonix（协议）</strong>：可信、专业、风控稳健（B 端/LP）。</li>
+    <li><strong>FOMOCare（应用）</strong>：直击情绪与传播——<strong>“错过行情？我们帮你回血。”</strong> / <em>Don’t regret missing the pump.</em></li>
+  </ul>
+  <hr/>
+
+  <h2>8. 合规与披露（高层原则）</h2>
+  <ul>
+    <li><strong>性质定位</strong>：参数化保障合约（parametric payout），信息披露充分；非储蓄/非投资承诺。</li>
+    <li><strong>地域与准入</strong>：设地理屏蔽与 KYC 模式开关（由合作方/前端决定适用范围）。</li>
+    <li><strong>宣传口径</strong>：严禁“稳赚/提高胜率”，只强调情绪对冲与机会成本缓释。</li>
+    <li><strong>法律咨询</strong>：关键市场（US/EU/SG/HK）走本地律所意见（统一法律包）。</li>
+  </ul>
+  <hr/>
+
+  <h2>9. 指标与增长</h2>
+  <ul>
+    <li><strong>产品 KPI</strong>：付费转化、触发率、保费/赔付/毛利率、复购、人均计划数、渠道占比。</li>
+    <li><strong>增长动作</strong>：场景模板、挑战赛/榜单、赔付证据链分享卡。</li>
+  </ul>
+  <hr/>
+
+  <h2>10. FAQ（统一口径）</h2>
+  <p><strong>Q1：用户不下单也能赔？</strong> 是。我们只验证“计划 + 价格路径”，与真实交易解耦。</p>
+  <p><strong>Q2：会被“追 K 线买保险”薅吗？</strong> 冷却期 + TWAP/Median + 阈值/窗口 + 拥挤提价/限额，降低此类风险。</p>
+  <p><strong>Q3：怎么定价才不亏？</strong> 保证 <span class="code">F &gt; p×G</span>；p 用历史/隐含波动 + Δt + τ 估计，并随资金池健康度动态调价。</p>
+  <p><strong>Q4：赔付资金从哪来？</strong> 保费净收入 + LP 池；G 定额封顶，池子做分层与限额。</p>
+  <p><strong>Q5：和“预测市场/博彩”差别？</strong> 我们不对输赢赔率，而是对“错过的路径事件”付定额；属于参数化保障。</p>
+  <hr/>
+
+  <h2>11. 落地清单（两周可交付）</h2>
+  <ul>
+    <li><strong>W1</strong>：合约 v0（Commit/Δt/TWAP/定额赔付）、前端 v0（两款模板）、接 Pyth/Chainlink。</li>
+    <li><strong>W2</strong>：池子与限额、渠道分账、分享卡、灰度内测、风控面板。</li>
+  </ul>
+  <hr/>
+
+  <h2>12. 术语速查</h2>
+  <p>Plan/计划；s₀/基准价；τ/阈值；Δt/窗口；F/保费；G/赔付；c/冷却期；TWAP；Median；Commit-Reveal。</p>
+
+  <div class="footer">© 2025 Rebonix Labs. All rights reserved.</div>
+</main>
+</body>
+</html>

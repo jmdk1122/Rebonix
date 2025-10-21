@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>期权简化创新史 1980–2025（阅读版）</title>
+<style>
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+    line-height: 1.7;
+    color: #222; background: #fff;
+    margin: 2em auto; max-width: 860px; padding: 0 1em;
+  }
+  h1, h2, h3 { border-bottom: 1px solid #eee; padding-bottom: .25em; }
+  nav { background: #f5f7fa; border: 1px solid #e9edf3; padding: 1em; margin-bottom: 1.5em; border-radius: 8px;}
+  nav ul { list-style: none; padding-left: 1em; margin:0; }
+  nav li { margin: .3em 0; }
+  a { color: #0b65c2; text-decoration: none; } a:hover { text-decoration: underline; }
+  code, pre { background:#f6f8fa; padding:2px 6px; border-radius:4px; }
+</style>
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  const toc = document.getElementById('toc');
+  const hs = document.querySelectorAll('h2, h3');
+  const ul = document.createElement('ul');
+  hs.forEach((h, i) => {
+    if (!h.id) h.id = 'sec-' + i;
+    const li = document.createElement('li');
+    li.style.marginLeft = (h.tagName==='H2' ? '0' : '16px');
+    const a = document.createElement('a');
+    a.textContent = h.textContent;
+    a.href = '#' + h.id;
+    li.appendChild(a); ul.appendChild(li);
+  });
+  toc.appendChild(ul);
+});
+</script>
+</head>
+<body>
+<h1>期权简化创新史 1980–2025：从 CBOE → Robinhood → Rebonix</h1>
+<nav id="toc"><strong>目录</strong></nav>
+<div id="content">
+
+<h2 id="thesis">一、项目论点（Thesis）</h2>
+<p>把“后悔/错过/FOMO”等行为情绪，转译为可定价、可结算的参数化风险票据（Emotional Finance Layer）。不是博彩，也非传统保险。</p>
+
+<h2 id="compare">二、为何不是 PoolTogether</h2>
+<p>无损抽奖是储蓄型幻想；我们要的是参与型/行情型“确定性幻想”，与波动率锚定。</p>
+
+<h2 id="tracks">三、双轨产品</h2>
+<h3 id="track-a">A. Smart Exposure Vault</h3>
+<ul>
+  <li><strong>Pitch：</strong>100U预算 → 30U实盘 + 小保费（定额赔付）。涨多了补偿；不涨损失很小。</li>
+  <li><strong>UI：</strong>三档模板：保守/均衡/激进（阈值、倍数、期限固定）</li>
+  <li><strong>Math：</strong>E[π]=F - p*G; 目标 p&lt;6–10%</li>
+  <li><strong>Who：</strong>定投/轻波段/不想开杠杆</li>
+  <li><strong>Edge：</strong>把期权打包成‘一键聪明买入’；心理安全+上行补偿</li>
+</ul>
+
+<h3 id="track-b">B. Parametric Price Tickets</h3>
+<ul>
+  <li><strong>Pitch：</strong>1–5U 押本周行情：涨票/跌票/区间票；链上开奖、赔率透明。</li>
+  <li><strong>UI：</strong>UP/DOWN/RANGE 三张票；7D；ETH/BTC 起步</li>
+  <li><strong>Math：</strong>赔率≈1/p*(1-抽成)；动态拥挤度调价；赔付上限</li>
+  <li><strong>Who：</strong>泛用户/社群/KOL导流</li>
+  <li><strong>Edge：</strong>把波动率体验做成‘票据/盲盒’，可分享、可裂变</li>
+</ul>
+
+<h2 id="risk">四、风险架构</h2>
+<ul>
+  <li><strong>Layers：</strong>
+    <ul><li>User Pool</li>
+<li>Risk Buffer Vault</li>
+<li>External Hedge Layer</li></ul>
+  </li>
+  <li><strong>Controls：</strong>
+    <ul><li>赔付上限</li>
+<li>滚动奖池</li>
+<li>TWAP/Median Oracles</li>
+<li>冷却期</li>
+<li>拥挤度调价</li></ul>
+  </li>
+  <li><strong>Hedge：</strong>
+    <ul><li>Deribit/OKX 期权或永续反向仓</li>
+<li>Lyra/Dopex 组合对冲</li></ul>
+  </li>
+</ul>
+
+<h2 id="compliance">五、合规叙事</h2>
+<p>参数化保险/预测订阅/结构化票据（避免赌博表述）；适当性与风控提示明确。</p>
+
+<h2 id="next">六、下一步</h2>
+<ol>
+  <li>MVP-7D：三张票/三档模板+Pyth/Chainlink结算</li><li>风控：p&lt;8%，毛利&gt;50%，单人/单轮赔付上限</li><li>GTM：KOL‘每周三票’，中签榜卡片分享</li>
+</ol>
+
+</div>
+<footer style="margin-top:2em;color:#666;font-size:.9em;">由原文件（JSON）转换为可读 HTML（UTF‑8）。</footer>
+</body>
+</html>
