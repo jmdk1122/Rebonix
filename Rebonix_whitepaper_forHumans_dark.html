@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Rebonix · for Humans（夜色版）</title>
+<style>
+  :root{
+    --bg:#0b0c10;
+    --bg2:#111219;
+    --text:#e6e6e6;
+    --muted:#9aa0aa;
+    --brand:#f5c84b;
+    --link:#9fd1ff;
+    --card:#0f1117;
+    --border:#1b1e27;
+    --code:#0a0d14;
+  }
+  html,body{background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;margin:0;padding:0}
+  .wrap{max-width:920px;margin:0 auto;padding:48px 22px}
+  header{display:flex;align-items:center;gap:14px;margin-bottom:28px}
+  .logo{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#1f222c,#0f1117);border:1px solid var(--border);position:relative;box-shadow:0 0 0 1px rgba(245,200,75,.3) inset}
+  .logo:after{content:"R";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--brand);font-weight:800}
+  h1{font-size:28px;margin:0}
+  h2{font-size:20px;margin:30px 0 10px;color:var(--brand)}
+  p{line-height:1.8;margin:10px 0}
+  .lead{font-size:18px;color:#f2f2f2}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;margin:14px 0}
+  .grid{display:grid;grid-template-columns:1fr;gap:14px}
+  @media(min-width:860px){.grid-2{grid-template-columns:1fr 1fr}}
+  .muted{color:var(--muted)}
+  a{color:var(--link);text-decoration:none}
+  a:hover{color:#c6e4ff}
+  .tag{display:inline-block;border:1px solid var(--border);background:var(--bg2);padding:4px 10px;border-radius:999px;color:var(--muted);font-size:12px;margin-right:8px}
+  ul{margin:8px 0 8px 18px}
+  li{margin:6px 0}
+  code{background:var(--code);padding:2px 6px;border-radius:6px;border:1px solid var(--border)}
+  footer{margin-top:40px;border-top:1px solid var(--border);padding-top:18px;text-align:center;color:var(--muted);font-size:13px}
+  .ens{margin-top:6px}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="logo"></div>
+      <div>
+        <h1>Rebonix · for Humans（夜色版）</h1>
+        <div class="muted">情绪 × 精算 × 系统 · Emotional Finance Layer</div>
+      </div>
+    </header>
+
+    <p class="lead">Rebonix 不是赌博，也不是预测市场。它是一层<strong>情绪保险</strong>：当市场波动让你焦虑时，
+    你可以买一张小额的“心理确定性”保单，让自己的决策更稳、更可控。</p>
+
+    <div class="card">
+      <h2>🧭 Rebonix 是什么？</h2>
+      <p>一种把“人类情绪”转化为可定价、可结算票据的金融层。你可以为自己的持仓购买情绪对冲，
+      在行情不利时获得固定赔付或心理补偿，从而减少冲动止损与追涨杀跌。</p>
+    </div>
+
+    <div class="grid grid-2">
+      <div class="card">
+        <h2>💡 为什么需要它</h2>
+        <ul>
+          <li>市场真正让人亏的不是价格，而是<strong>情绪失控</strong>。</li>
+          <li>Rebonix 提供“确定性”，帮助你坚持计划、降低后悔。</li>
+          <li>不是暴富工具，而是<strong>稳态工具</strong>。</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h2>⚙️ 如何运作（简例）</h2>
+        <p>你持有 10,000 美元仓位，花 <code>30 美元</code> 购买 Rebonix 情绪保单：</p>
+        <ul>
+          <li>上涨：你赚钱，保险作为安稳成本。</li>
+          <li>震荡：无赔付，稳态持仓。</li>
+          <li>下跌：触发定额赔付，缓冲焦虑与回撤。</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>🧠 核心价值</h2>
+      <ul>
+        <li><strong>金融层：</strong>将后悔/焦虑量化为风险票据并定价。</li>
+        <li><strong>心理层：</strong>提供“可承担的失败”，让策略更可执行。</li>
+        <li><strong>社会层：</strong>鼓励长期主义，降低极端波动时的羊群效应。</li>
+      </ul>
+      <p><strong>一句话：</strong><em>Rebonix 卖的不是收益，而是确定性。</em></p>
+    </div>
+
+    <div class="grid grid-2">
+      <div class="card">
+        <h2>🌍 适合谁</h2>
+        <ul>
+          <li>有仓位、怕波动的普通投资者</li>
+          <li>需要更低赎回率的机构/平台</li>
+          <li>希望在波动市场坚持计划的长期主义者</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h2>🔗 它不是什么</h2>
+        <ul>
+          <li>不是期权：期权对<strong>价格</strong>下注，Rebonix对<strong>心理状态</strong>定价。</li>
+          <li>不是彩票：无暴利诱导，强调稳态与心理补偿。</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>🧩 产品用语（对外沟通）</h2>
+      <span class="tag">情绪对冲</span>
+      <span class="tag">波动缓冲层</span>
+      <span class="tag">心理确定性</span>
+      <span class="tag">小额行情保险</span>
+      <p class="muted">建议在官网与社媒统一采用以上用语，淡化“衍生品/期权”等高门槛词汇。</p>
+    </div>
+
+    <div class="card">
+      <h2>📎 快速口号</h2>
+      <p><strong>英文：</strong>For every emotion in the market, there’s a price to be hedged.</p>
+      <p><strong>中文：</strong>每一种市场情绪，都应有一个可对冲的价格。</p>
+    </div>
+
+    <footer>
+      <div>© Rebonix / EmoX / FOMOCare · Emotional Finance Layer</div>
+      <div class="ens">
+        🔗 Verified on-chain:
+        <a href="https://app.ens.domains/name/rebonix.eth" target="_blank" rel="noopener">rebonix.eth</a> ·
+        <a href="https://app.ens.domains/name/emox.eth" target="_blank" rel="noopener">emox.eth</a> ·
+        <a href="https://app.ens.domains/name/fomocare.eth" target="_blank" rel="noopener">fomocare.eth</a>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>

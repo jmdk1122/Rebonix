@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Rebonix Emotional Index (REI)：量化情绪的参数体系（夜色版）</title>
+<style>
+  :root{
+    --bg:#0b0c10; --bg2:#111219; --text:#e8e8ea; --muted:#9aa0aa;
+    --brand:#f5c84b; --link:#9fd1ff; --card:#0f1117; --border:#1b1e27; --code:#0a0d14;
+  }
+  html,body{background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;margin:0;padding:0}
+  .wrap{max-width:980px;margin:0 auto;padding:48px 22px}
+  header{display:flex;align-items:center;gap:14px;margin-bottom:28px}
+  .logo{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#1f222c,#0f1117);border:1px solid var(--border);position:relative;box-shadow:0 0 0 1px rgba(245,200,75,.3) inset}
+  .logo:after{content:"R";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--brand);font-weight:800}
+  h1{font-size:28px;margin:0}
+  h2{font-size:20px;margin:26px 0 10px;color:var(--brand)}
+  p{line-height:1.8;margin:8px 0}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;margin:14px 0}
+  .grid{display:grid;gap:14px}
+  @media(min-width:940px){.grid-2{grid-template-columns:1fr 1fr} .grid-3{grid-template-columns:1fr 1fr 1fr}}
+  .muted{color:var(--muted)}
+  a{color:var(--link);text-decoration:none}
+  a:hover{color:#c6e4ff}
+  code{background:var(--code);padding:2px 6px;border-radius:6px;border:1px solid var(--border);font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,"Liberation Mono","Courier New",monospace}
+  ul{margin:6px 0 6px 18px}
+  li{margin:6px 0}
+  footer{margin-top:38px;border-top:1px solid var(--border);padding-top:16px;text-align:center;color:var(--muted);font-size:13px}
+  .ens{margin-top:6px}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="logo"></div>
+      <div>
+        <h1>Rebonix Emotional Index (REI)：量化情绪的参数体系（夜色版）</h1>
+        <div class="muted">将“情绪”转化为可定价、可结算的风险参数</div>
+      </div>
+    </header>
+
+    <div class="card">
+      <h2>一、问题的核心</h2>
+      <p>Rebonix 的目标是把“情绪”变成可定价、可结算的风险参数。为此我们提出 <strong>Rebonix Emotional Index（REI）</strong> —— 一个可验证的合成指数，用于度量市场整体的情绪温度。</p>
+    </div>
+
+    <div class="card">
+      <h2>二、指数结构：三维一体</h2>
+      <table style="width:100%;border-collapse:collapse">
+        <tr>
+          <th style="text-align:left;border-bottom:1px solid var(--border);padding:6px 0">维度</th>
+          <th style="text-align:left;border-bottom:1px solid var(--border);padding:6px 0">数据来源</th>
+          <th style="text-align:left;border-bottom:1px solid var(--border);padding:6px 0">含义</th>
+          <th style="text-align:left;border-bottom:1px solid var(--border);padding:6px 0">权重</th>
+        </tr>
+        <tr>
+          <td style="padding:6px 0"><strong>市场维度</strong></td>
+          <td style="padding:6px 0">链上波动率、资金费率、未平仓量、净流入</td>
+          <td style="padding:6px 0">客观“风险压力”</td>
+          <td style="padding:6px 0">40%</td>
+        </tr>
+        <tr>
+          <td style="padding:6px 0"><strong>行为维度</strong></td>
+          <td style="padding:6px 0">交易笔数分布、持仓周期、地址集中度、流动性拥挤度</td>
+          <td style="padding:6px 0">群体“情绪倾向”</td>
+          <td style="padding:6px 0">35%</td>
+        </tr>
+        <tr>
+          <td style="padding:6px 0"><strong>舆情维度</strong></td>
+          <td style="padding:6px 0">Twitter/Reddit/Discord/TG 情感分析（Fear/Greed/Regret）</td>
+          <td style="padding:6px 0">语义“心理温度”</td>
+          <td style="padding:6px 0">25%</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h2>三、计算示例（伪代码）</h2>
+      <pre><code>REI = 0.4 * normalize(volatility_index) \
+    + 0.35 * normalize(behavioral_crowding) \
+    + 0.25 * normalize(sentiment_score)</code></pre>
+      <ul>
+        <li>0–30：过度悲观（FUD） → 启用 FUD Shield</li>
+        <li>30–70：中性稳态 → 正常保费</li>
+        <li>70–100：过度贪婪（FOMO） → 提高保费/限额</li>
+      </ul>
+    </div>
+
+    <div class="grid grid-3">
+      <div class="card">
+        <h2>四‑1｜链上信号层</h2>
+        <ul>
+          <li>Funding Rate、Aave 借贷利率</li>
+          <li>DEX Swap 频率与滑点</li>
+          <li>多空持仓比、净流入</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h2>四‑2｜行为金融层（EmoX Engine™）</h2>
+        <ul>
+          <li>高周转率 → 恐慌性交易</li>
+          <li>交易金额骤降 → 集体谨慎</li>
+          <li>大户集中度提升 → FOMO 聚集</li>
+          <li>时间序列聚类 → 拥挤度系数（Crowding Coefficient）</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h2>四‑3｜语义舆情层</h2>
+        <ul>
+          <li>NLP 情感打分（Fear/Greed/Regret 词频+极性）</li>
+          <li>目标：方向性一致性，而非价格预测</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>五、使用场景</h2>
+      <ul>
+        <li>REI &lt; 30：FUD Shield 低价开放</li>
+        <li>REI 70+：FOMOCare 提价或限额发行</li>
+        <li>REI 85+：触发风险提示或临时限流</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>六、设计哲学</h2>
+      <p>REI 不是预测，而是<strong>心理风险的定价锚点</strong>：在极端行情中提供稳定心理锚，在常态中提供公平保费。</p>
+    </div>
+
+    <footer>
+      <div>© Rebonix / EmoX / FOMOCare · Emotional Finance Layer</div>
+      <div class="ens">
+        🔗 Verified on-chain:
+        <a href="https://app.ens.domains/name/rebonix.eth" target="_blank" rel="noopener">rebonix.eth</a> ·
+        <a href="https://app.ens.domains/name/emox.eth" target="_blank" rel="noopener">emox.eth</a> ·
+        <a href="https://app.ens.domains/name/fomocare.eth" target="_blank" rel="noopener">fomocare.eth</a>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>

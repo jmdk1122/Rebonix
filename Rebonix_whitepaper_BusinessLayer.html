@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Rebonix · Business & Moat Layer（夜色版）</title>
+<style>
+  :root{
+    --bg:#0b0c10; --bg2:#111219; --text:#e8e8ea; --muted:#9aa0aa;
+    --brand:#f5c84b; --link:#9fd1ff; --card:#0f1117; --border:#1b1e27; --code:#0a0d14;
+  }
+  html,body{background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;margin:0;padding:0}
+  .wrap{max-width:980px;margin:0 auto;padding:48px 22px}
+  header{display:flex;align-items:center;gap:14px;margin-bottom:28px}
+  .logo{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#1f222c,#0f1117);border:1px solid var(--border);position:relative;box-shadow:0 0 0 1px rgba(245,200,75,.3) inset}
+  .logo:after{content:"R";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--brand);font-weight:800}
+  h1{font-size:28px;margin:0}
+  h2{font-size:20px;margin:26px 0 10px;color:var(--brand)}
+  p{line-height:1.8;margin:8px 0}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;margin:14px 0}
+  .grid{display:grid;gap:14px}
+  @media(min-width:940px){.grid-2{grid-template-columns:1fr 1fr} .grid-3{grid-template-columns:1fr 1fr 1fr}}
+  .muted{color:var(--muted)}
+  a{color:var(--link);text-decoration:none}
+  a:hover{color:#c6e4ff}
+  code{background:var(--code);padding:2px 6px;border-radius:6px;border:1px solid var(--border);font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,"Liberation Mono","Courier New",monospace}
+  ul{margin:6px 0 6px 18px}
+  li{margin:6px 0}
+  .pill{display:inline-block;border:1px solid var(--border);background:var(--bg2);padding:4px 10px;border-radius:999px;color:var(--muted);font-size:12px;margin:3px 6px 0 0}
+  footer{margin-top:38px;border-top:1px solid var(--border);padding-top:16px;text-align:center;color:var(--muted);font-size:13px}
+  .ens{margin-top:6px}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="logo"></div>
+      <div>
+        <h1>Rebonix · Business & Moat Layer（夜色版）</h1>
+        <div class="muted">从产品到基础设施：Emotional Finance Layer as a Service</div>
+      </div>
+    </header>
+
+    <div class="card">
+      <h2>定位 · 不做 App，做层</h2>
+      <p><strong>Rebonix = Emotional Finance Layer（EFLaaS）</strong>。我们不与交易所/应用争入口，而是以 <strong>API / SDK</strong> 形式，为其用户提供“心理对冲（情绪保险）”能力。</p>
+      <p class="muted">一句话：Don’t hedge the market. Hedge yourself.</p>
+      <div>
+        <span class="pill">FOMOCare™ 防抖器</span>
+        <span class="pill">FUD Shield™ 心理保险</span>
+        <span class="pill">EmoX Engine™ 拥挤度定价</span>
+      </div>
+    </div>
+
+    <div class="grid grid-2">
+      <div class="card">
+        <h2>商业模式（B2B2C）</h2>
+        <ul>
+          <li>对 <strong>交易所 / 钱包 / DeFi 协议</strong>：提供嵌入式“心理对冲”组件；按成交额抽成或按调用量计费。</li>
+          <li>对 <strong>终端用户</strong>：在原有开仓/抵押界面出现 <em>“添加心理对冲（$5 起）”</em> 勾选项。</li>
+          <li>结算：参数化赔付，链上透明，批次化清算。</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h2>护城河</h2>
+        <ul>
+          <li><strong>算法护城河</strong>：行为金融 × AI 拥挤度调价（EmoX），依赖心理数据与动态参数，难以复制。</li>
+          <li><strong>信任护城河</strong>：去中心化准备金与链上清算，CEX 难以等价透明。</li>
+          <li><strong>合规护城河</strong>：参数化保险叙事，新加坡主体；非博彩、非二元期权。</li>
+          <li><strong>整合护城河</strong>：深度嵌入合作方流程，替换成本高。</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>最小可用接口（MVP API）</h2>
+      <pre><code>POST /api/v1/fomocare/hedge
+Body:
+{
+  "user": "hashed_id",
+  "asset": "BTC",
+  "side": "long|short",
+  "notional": 10000,
+  "tenor_days": 7,
+  "risk_profile": "conservative|balanced|aggressive"
+}
+
+Response:
+{
+  "premium_usd": 12.4,
+  "cover_profile": "drawdown-15%-cap",
+  "payout_max_usd": 800,
+  "policy_id": "rbx_20251020_xxxxx"
+}</code></pre>
+      <p class="muted">SDK：JS（前端弹窗组件）、Python/Go（后端撮合）、Solidity（链上结算适配器）。</p>
+    </div>
+
+    <div class="grid grid-3">
+      <div class="card">
+        <h2>技术路线</h2>
+        <ul>
+          <li>EmoX Engine：基于波动率/拥挤度/资金费率/链上行为的动态保费。</li>
+          <li>批次化发行：统一时间窗聚合，降低对冲与清算成本。</li>
+          <li>清算与储备：链上可验证的准备金与赔付路径。</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h2>合规模块</h2>
+        <ul>
+          <li>参数化保险条款（非保证收益）。</li>
+          <li>披露：风险、赔付规则、准备金规模。</li>
+          <li>新加坡主体 + KYC/AML 适配（合作方负责终端 KYC）。</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h2>商业推进</h2>
+        <ul>
+          <li>Pilot：与中小型 DeFi/钱包合作，灰度接入。</li>
+          <li>Scaling：组件化 SDK，接入费用低于 5 工日。</li>
+          <li>Standard：发布 Emotional Risk Index 与行业 API 标准。</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>成功度量（北极星指标）</h2>
+      <ul>
+        <li><strong>Attach Rate</strong>：选择“心理对冲”的开仓占比 ≥ 15%</li>
+        <li><strong>Retention Lift</strong>：合作平台用户留存提升 ≥ 8%</li>
+        <li><strong>Churn ↓</strong>：极端波动期的赎回率下降 ≥ 20%</li>
+        <li><strong>Loss Aversion ROI</strong>：平均 1 美元保费，避免 ≥ 50 美元的行为性损失</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>对巨头抄袭的回应</h2>
+      <ul>
+        <li>我们不上前端赛道，不在 UI 竞争。</li>
+        <li>我们提供 <strong>复杂、可验证、可集成</strong> 的情绪风控服务。</li>
+        <li>复制 UI 容易，复制 <strong>算法 + 透明清算 + 合规包装</strong> 很难。</li>
+      </ul>
+    </div>
+
+    <footer>
+      <div>© Rebonix / EmoX / FOMOCare · Emotional Finance Layer</div>
+      <div class="ens">
+        🔗 Verified on-chain:
+        <a href="https://app.ens.domains/name/rebonix.eth" target="_blank" rel="noopener">rebonix.eth</a> ·
+        <a href="https://app.ens.domains/name/emox.eth" target="_blank" rel="noopener">emox.eth</a> ·
+        <a href="https://app.ens.domains/name/fomocare.eth" target="_blank" rel="noopener">fomocare.eth</a>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
